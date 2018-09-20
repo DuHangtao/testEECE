@@ -108,7 +108,7 @@ void Grow() {
 
     Finalize();
 
-    V = &nV[0];
+    V = nV;
 
     cout << "Vector grown" << endl;
     cout << "Previous capacity: " << copyOfSize << " elements" << endl;
@@ -189,7 +189,7 @@ void shrink() {
 
         Finalize();
 
-        V = &nV[0];
+        V = nV;
 
         cout << "Vector shrink" << endl;
         cout << "Previous capacity: " << copyOfSize << " elements" << endl;
