@@ -1,3 +1,8 @@
+// Name: Hangtao Du
+// Lab_1 Dynamically Growing Arrays in C++
+// Course Number: EECE 2160
+// Date: Sep 20th, 2018
+
 #include <iostream>
 
 using namespace std;
