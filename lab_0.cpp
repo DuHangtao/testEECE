@@ -170,7 +170,7 @@ void RemoveElement() {
         Count--;
     }
 
-    if (Count < 0.3 * size && Count != 0) {
+    if (Count < 0.3 * size && size != 1) {
         shrink();
     }
 }
