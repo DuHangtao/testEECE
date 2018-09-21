@@ -102,7 +102,7 @@ void Grow() {
 
     nV = new double[size];
 
-    for (int i = 0; i < copyOfSize; i++) {
+    for (int i = 0; i < Count; i++) {
         nV[i] = V[i];
     }
 
@@ -165,7 +165,7 @@ void RemoveElement() {
         Count--;
     }
 
-    if (Count < 0.3 * size) {
+    if (Count < 0.3 * size && Count != 0) {
         shrink();
     }
 }
@@ -183,7 +183,7 @@ void shrink() {
 
         double *nV = new double[size];
 
-        for (int i = 0; i < copyOfSize; i++) {
+        for (int i = 0; i < Count; i++) {
             nV[i] = V[i];
         }
 
