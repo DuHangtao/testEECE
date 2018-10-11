@@ -30,7 +30,7 @@ void print_cars_list(car *carLinkedList) {
 
     // Keep looping until the linked list is empty
     // Printing the element of the linked list one by one in a meaningful way.
-    while (current != nullptr) {
+    while (current != NULL) {
         cout << current->make << "," << current->car_model << "," << current->year << ","
              << current->color << endl;
         current = current->next;
@@ -64,7 +64,9 @@ void populate_linkedList(car *carLinkedList) {
             } else if (counter == 1) {
                 Car_model = out;
             } else if (counter == 2) {
-                int potentialYear = atoi(out.c_str());
+                istringstream iss (out);
+                int potentialYear;
+                iss >> potentialYear;
                 Year = potentialYear;
             } else if (counter == 3) {
                 Color = out;
