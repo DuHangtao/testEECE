@@ -3,170 +3,160 @@
 // Course Number: EECE 2160
 // Date: October, 9th, 2018
 #include <iostream>
+#include <iostream>
 #include<string>
 #include <fstream>
 #include <sstream>
 
 using namespace std;
-struct car {
-    string make;
-    string car_model;
-    int year;
-    string color;
-    car *next;
-};
 
-void print_cars_list(car *);
+class car {
+    char *make;
+    char *car_model;
+    char *year;
+    char *color;
 
-void populate_linkedList(car *);
-
-void add_a_car(car *);
-
-void search_by_year(car *);
-
-
-void print_cars_list(car *carLinkedList) {
-    car *current = carLinkedList;
-
-    // Keep looping until the linked list is empty
-    // Printing the element of the linked list one by one in a meaningful way.
-    while (current != NULL) {
-        cout << current->make << "," << current->car_model << "," << current->year << ","
-             << current->color << endl;
-        current = current->next;
+public:
+    car(char *new_make, char *new_car_model, char *new_year, char *new_color) {
+        make = new_make;
+        car_model = new_car_model;
+        year = new_year;
+        color = new_color;
     }
-}
 
-void populate_linkedList(car *carLinkedList) {
-    ifstream myReadFile;
-    myReadFile.open("CarRecords.txt");
-    string out;
-    char toBeDeleted[] = ",";
-    int counter = 0;
-    int carNums = 0;
+    car() {
+    }
 
-    string make;
-    string Car_model;
-    int Year;
-    string Color;
-    unsigned long stringLength;
+    ~car() {
+    }
 
-    if (myReadFile.is_open()) {
-        while (!myReadFile.eof()) {
-            myReadFile >> out;
-            if (counter != 3){
-                stringLength = out.length();
-                out.erase(stringLength-1);
+    void populate_array(int index) {
+        ifstream myReadFile;
+        myReadFile.open("CarRecords.txt");
+        string out;
+        char toBeDeleted[] = ",";
+        int counter = 0;
+        int carsIndex = 0;
+
+        char *make;
+        char *Car_model;
+        char *Year;
+        char *Color;
+
+        if (myReadFile.is_open()) {
+            while (!myReadFile.eof()) {
+                myReadFile >> out;
+                out.erase(remove(out.begin(), out.end(), toBeDeleted[0]), out.end());
+
+                char *char_array = new char[1];
+                strcpy(char_array, out.c_str());
+
+                if (counter == 0) {
+                    make = char_array;
+                } else if (counter == 1) {
+                    Car_model = char_array;
+                } else if (counter == 2) {
+                    Year = char_array;
+                } else if (counter == 3) {
+                    Color = char_array;
+                }
+                counter++;
+                if (counter == 4) {
+                    if (carsIndex == index) {
+                        this->make = make;
+                        this->year = Year;
+                        this->car_model = Car_model;
+                        this->color = Color;
+                    }
+                    counter = 0;
+                    carsIndex++;
+                }
             }
+        }
+        myReadFile.close();
+    }
 
-            if (counter == 0) {
-                make = out;
-            } else if (counter == 1) {
-                Car_model = out;
-            } else if (counter == 2) {
-                istringstream iss (out);
-                int potentialYear;
-                iss >> potentialYear;
-                Year = potentialYear;
-            } else if (counter == 3) {
-                Color = out;
+    static void print_cars_array(car carList[]) {
+        if (!carList) {
+            cout << "The cars array is totally empty, please inserting car records" << endl;
+        } else {
+            int i = 0;
+            for (i = 0; i < 10; i++) {
+                car currentCar = carList[i];
+                cout << currentCar.make << "," << currentCar.car_model << "," << currentCar.year << ","
+                     << currentCar.color << endl;
             }
-            counter++;
-            if (counter == 4) {
-                carLinkedList->make = make;
-                carLinkedList->car_model = Car_model;
-                carLinkedList->year = Year;
-                carLinkedList->color = Color;
-                carLinkedList->next = NULL;
-                counter = 0;
-                carNums++;
-                if (carNums < 10) {
-                    carLinkedList->next = new car;
-                    carLinkedList = carLinkedList->next;
+        }
+    }
+
+    static void sort_cars_by_year(car carList[]) {
+        car temp;
+        int i, j;
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 9; j++) {
+                int number1 = std::stoi(carList[j].year);
+                int number2 = std::stoi(carList[j + 1].year);
+                if (number1 > number2) {
+                    temp = carList[j + 1];
+                    carList[j + 1] = carList[j];
+                    carList[j] = temp;
                 }
             }
         }
     }
-    myReadFile.close();
-}
 
 
-void add_a_car(car *carLinkedList) {
-    car *current = carLinkedList;
+    static void search_by_make(car carList[]) {
+        int counter = 0;
 
-    while (current->next != NULL) {
-        current = current->next;
-    }
-
-
-    string newMake;
-    string newCarModel;
-    int newYear;
-    string newColor;
-
-    cout << "Please enter the make" << endl;
-    cin >> newMake;
-
-    cout << "Please enter the car model" << endl;
-    cin >> newCarModel;
-
-    cout << "Please enter the year" << endl;
-    cin >> newYear;
-
-    cout << "Please enter the color" << endl;
-    cin >> newColor;
-
-    car *newCar = new car;
-
-    newCar->make = newMake;
-    newCar->car_model = newCarModel;
-    newCar->year = newYear;
-    newCar->color = newColor;
-    newCar->next = NULL;
-
-    current->next = newCar;
-}
-
-
-void search_by_year(car *carLinkedList) {
-    bool finished = false;
-    int i;
-    car *current = carLinkedList;
-
-    while (!finished) {
-        cout << "Please enter the year which should be an integer" << endl;
-        cin >> i;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore();
-            cout << "You did not input a integer number, Please enter again.\n" << endl;
+        if (!carList) {
+            cout << "The cars array is totally empty, please inserting car records" << endl;
         } else {
-            finished = true;
+            string currentMake;
+            cout << "Please enter the name of the make" << endl;
+            cin >> currentMake;
+            int i = 0;
+            for (i = 0; i < 10; i++) {
+                string str(carList[i].make);
+                if (str == currentMake) {
+                    car currentCar = carList[i];
+                    cout << currentCar.make << "," << currentCar.car_model << "," << currentCar.year << ","
+                         << currentCar.color << endl;
+                    counter++;
+                }
+            }
+        }
+        if (counter == 0) {
+            cout << "No Records found" << endl;
         }
     }
 
-    while (current != NULL) {
-        if (current->year == i) {
-            cout << current->make << "," << current->car_model << "," << current->year << ","
-                 << current->color << endl;
-        }
-        current = current->next;
-    }
-}
 
+    static void freeMemory(car carList[]) {
+        int i = 0;
+        for (i = 0; i < 10; i++) {
+            delete[] carList[i].year;
+            delete[] carList[i].car_model;
+            delete[] carList[i].color;
+            delete[] carList[i].make;
+        }
+    }
+
+};
 
 int main() {
-    car *carLinkedList = new car;
+    car allCars[10];
     int i;
     bool finished = false;
+    int count = 0;
 
     while (!finished) {
         cout
                 << "MENU - Select an option: \n\n"
-                   "1. Print the cars list\n"
-                   "2. Insert car records into an list\n"
-                   "3. Add a car into the list\n"
-                   "4. Search cars by year\n"
+                   "1. Print the cars array\n"
+                   "2. Insert car records into an array\n"
+                   "3. Sort cars by year\n"
+                   "4. Search cars by make\n"
                    "5. Exit\n";
         cin >> i;
         if (cin.fail()) {
@@ -178,24 +168,32 @@ int main() {
                 cin.clear();
                 cin.ignore();
                 cout << "The option does not exist, pleas enter again.\n" << endl;
-
             } else if (i == 1) {
-                cout << "You selected\"Print the cars list\"\n" << endl;
-                print_cars_list(carLinkedList);
-
+                count++;
+                cout << "You selected\"Print the cars array\"\n" << endl;
+                car::print_cars_array(allCars);
             } else if (i == 2) {
-                cout << "You selected\"Insert car records into an list\"\n" << endl;
-                populate_linkedList(carLinkedList);
-
+                count++;
+                cout << "You selected\"Insert car records into an array\"\n" << endl;
+                int j = 0;
+                for (j = 0; j < 10; j++) {
+                    allCars[j].populate_array(j);
+                }
+                cout << "You successfully inserted the records" << endl;
             } else if (i == 3) {
-                cout << "You selected\"Add a car into the list\"\n" << endl;
-                add_a_car(carLinkedList);
-
+                count++;
+                cout << "You selected\"Sort cars by year\"\n" << endl;
+                car::sort_cars_by_year(allCars);
+                cout << "You successfully sort the records" << endl;
             } else if (i == 4) {
-                cout << "You selected\"Search cars by year\"\n " << endl;
-                search_by_year(carLinkedList);
+                count++;
+                cout << "You selected\"Search cars by make\"\n " << endl;
+                car::search_by_make(allCars);
             } else {
                 cout << "You selected\"Exit\"\n " << endl;
+                if (count != 0) {
+                    car::freeMemory(allCars);
+                }
                 finished = true;
             }
         }
