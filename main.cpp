@@ -11,13 +11,13 @@
 using namespace std;
 
 class car {
-    char *make;
-    char *car_model;
-    char *year;
-    char *color;
+    string make;
+    string car_model;
+    string year;
+    string color;
 
 public:
-    car(char *new_make, char *new_car_model, char *new_year, char *new_color) {
+    car(string new_make, string new_car_model, string new_year, string new_color) {
         make = new_make;
         car_model = new_car_model;
         year = new_year;
@@ -38,10 +38,10 @@ public:
         int counter = 0;
         int carsIndex = 0;
 
-        char *make;
-        char *Car_model;
-        char *Year;
-        char *Color;
+        string make;
+        string Car_model;
+        string Year;
+        string Color;
 
         unsigned long stringLength;
 
@@ -53,17 +53,15 @@ public:
                     out.erase(stringLength - 1);
                 }
 
-                char *char_array = new char[1];
-                strcpy(char_array, out.c_str());
 
                 if (counter == 0) {
-                    make = char_array;
+                    make = out;
                 } else if (counter == 1) {
-                    Car_model = char_array;
+                    Car_model = out;
                 } else if (counter == 2) {
-                    Year = char_array;
+                    Year = out;
                 } else if (counter == 3) {
-                    Color = char_array;
+                    Color = out;
                 }
                 counter++;
                 if (counter == 4) {
@@ -82,16 +80,13 @@ public:
     }
 
     static void print_cars_array(car carList[]) {
-        if (!carList) {
-            cout << "The cars array is totally empty, please inserting car records" << endl;
-        } else {
-            int i = 0;
-            for (i = 0; i < 10; i++) {
-                car currentCar = carList[i];
-                cout << currentCar.make << "," << currentCar.car_model << "," << currentCar.year << ","
-                     << currentCar.color << endl;
-            }
+        int i = 0;
+        for (i = 0; i < 10; i++) {
+            car currentCar = carList[i];
+            cout << currentCar.make << "," << currentCar.car_model << "," << currentCar.year << ","
+                 << currentCar.color << endl;
         }
+
     }
 
     static void sort_cars_by_year(car carList[]) {
@@ -136,16 +131,6 @@ public:
         }
     }
 
-
-    static void freeMemory(car carList[]) {
-        int i = 0;
-        for (i = 0; i < 10; i++) {
-            delete[] carList[i].year;
-            delete[] carList[i].car_model;
-            delete[] carList[i].color;
-            delete[] carList[i].make;
-        }
-    }
 
 };
 
@@ -197,7 +182,6 @@ int main() {
             } else {
                 cout << "You selected\"Exit\"\n " << endl;
                 if (count != 0) {
-                    car::freeMemory(allCars);
                 }
                 finished = true;
             }
