@@ -30,7 +30,7 @@ void print_cars_list(car *carLinkedList) {
 
     // Keep looping until the linked list is empty
     // Printing the element of the linked list one by one in a meaningful way.
-    while (current != nullptr) {
+    while (current != NULL) {
         cout << current->make << "," << current->car_model << "," << current->year << ","
              << current->color << endl;
         current = current->next;
@@ -71,7 +71,7 @@ void populate_linkedList(car *carLinkedList) {
                 carLinkedList->car_model = Car_model;
                 carLinkedList->year = Year;
                 carLinkedList->color = Color;
-                carLinkedList->next = nullptr;
+                carLinkedList->next = NULL;
                 counter = 0;
                 carNums++;
                 if (carNums < 10) {
@@ -88,7 +88,7 @@ void populate_linkedList(car *carLinkedList) {
 void add_a_car(car *carLinkedList) {
     car *current = carLinkedList;
 
-    while (current->next != nullptr) {
+    while (current->next != NULL) {
         current = current->next;
     }
 
@@ -116,7 +116,7 @@ void add_a_car(car *carLinkedList) {
     newCar->car_model = newCarModel;
     newCar->year = newYear;
     newCar->color = newColor;
-    newCar->next = nullptr;
+    newCar->next = NULL;
 
     current->next = newCar;
 }
@@ -139,7 +139,7 @@ void search_by_year(car *carLinkedList) {
         }
     }
 
-    while (current != nullptr) {
+    while (current != NULL) {
         if (current->year == i) {
             cout << current->make << "," << current->car_model << "," << current->year << ","
                  << current->color << endl;
