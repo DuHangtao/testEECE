@@ -43,10 +43,15 @@ public:
         char *Year;
         char *Color;
 
+        unsigned long stringLength;
+
         if (myReadFile.is_open()) {
             while (!myReadFile.eof()) {
                 myReadFile >> out;
-                out.erase(remove(out.begin(), out.end(), toBeDeleted[0]), out.end());
+                if (counter != 3) {
+                    stringLength = out.length();
+                    out.erase(stringLength - 1);
+                }
 
                 char *char_array = new char[1];
                 strcpy(char_array, out.c_str());
