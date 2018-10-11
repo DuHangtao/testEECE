@@ -30,7 +30,7 @@ void print_cars_list(car *carLinkedList) {
 
     // Keep looping until the linked list is empty
     // Printing the element of the linked list one by one in a meaningful way.
-    while (current != NULL) {
+    while (current != nullptr) {
         cout << current->make << "," << current->car_model << "," << current->year << ","
              << current->color << endl;
         current = current->next;
@@ -49,11 +49,15 @@ void populate_linkedList(car *carLinkedList) {
     string Car_model;
     int Year;
     string Color;
+    unsigned long stringLength;
 
     if (myReadFile.is_open()) {
         while (!myReadFile.eof()) {
             myReadFile >> out;
-            out.erase(remove(out.begin(), out.end(), toBeDeleted[0]), out.end());
+            if (counter != 3){
+                stringLength = out.length();
+                out.erase(stringLength-1);
+            }
 
             if (counter == 0) {
                 make = out;
