@@ -34,13 +34,16 @@ void search_by_year(car *);
 
 void print_cars_list(car *carLinkedList) {
     car *current = carLinkedList;
-
-    // Keep looping until the linked list is empty.
-    // Printing the element of the linked list one by one in a meaningful way.
-    while (current != NULL) {
-        cout << current->make << "," << current->car_model << "," << current->year << ","
-             << current->color << endl;
-        current = current->next;
+    if (carLinkedList == NULL){
+        cout << "You do not have anything in the list, please add some cars"<< endl;
+    }else {
+        // Keep looping until the linked list is empty.
+        // Printing the element of the linked list one by one in a meaningful way.
+        while (current != NULL) {
+            cout << current->make << "," << current->car_model << "," << current->year << ","
+                 << current->color << endl;
+            current = current->next;
+        }
     }
 }
 
