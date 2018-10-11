@@ -94,8 +94,14 @@ public:
         int i, j;
         for (i = 0; i < 10; i++) {
             for (j = 0; j < 9; j++) {
-                int number1 = std::stoi(carList[j].year);
-                int number2 = std::stoi(carList[j + 1].year);
+                //int number1 = std::stoi(carList[j].year);
+                //int number2 = std::stoi(carList[j + 1].year);
+                istringstream iss1(carList[j].year);
+                istringstream iss2(carList[j + 1].year);
+                int number1;
+                int number2;
+                iss1 >> number1;
+                iss2 >> number2;
                 if (number1 > number2) {
                     temp = carList[j + 1];
                     carList[j + 1] = carList[j];
